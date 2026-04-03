@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ChevronRight } from 'lucide-react'
 import type { Layer, Metric, TraceStep } from './lineageData'
 import { buildTrace, QUARTERS } from './lineageData'
 
@@ -211,59 +212,59 @@ export function LayerCard({ layer, index, total, isOpen, onToggle, highlightTabl
 
 export function DataFlowDiagram() {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6">
-      <h2 className="text-base font-semibold text-gray-800 mb-1">Data Flow Overview</h2>
-      <p className="text-xs text-gray-400 mb-5">Regulatory source data flows left → right through validation and transformation into a single Basel III reporting surface.</p>
-      <div className="overflow-x-auto">
-        <svg viewBox="0 0 754 82" className="w-full min-w-[640px]"
-          aria-label="Data flow: Raw Regulatory Feeds → Staging & Validation → Medallion Warehouse → Aggregation API → Intelligence Layer">
-          <defs>
-            <marker id="arrLin" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
-              <polygon points="0 0, 7 3.5, 0 7" fill="#64748b" />
-            </marker>
-          </defs>
+    <div className="rounded-xl border border-slate-200 bg-white p-6">
+      <h2 className="text-base font-semibold text-slate-900 mb-1">Data Flow Overview</h2>
+      <p className="text-xs text-slate-500 mb-5">Regulatory source data flows left → right through validation and transformation into a single Basel III reporting surface.</p>
+      <div className="flex flex-row gap-4 items-stretch mb-8 overflow-x-auto">
+        {/* Node 1: Raw Feeds */}
+        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Raw Feeds</p>
+          <p className="text-[10px] text-slate-500">ECB / BISTA</p>
+        </div>
 
-          {/* Node 1 — Raw Regulatory Feeds */}
-          <rect x="0" y="20" width="140" height="38" rx="8" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" />
-          <text x="70" y="34" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#334155">Raw Regulatory Feeds</text>
-          <text x="70" y="47" textAnchor="middle" fontSize="8.5" fill="#475569">(ECB / BISTA)</text>
+        {/* Chevron */}
+        <div className="flex items-center shrink-0">
+          <ChevronRight className="w-6 h-6 text-slate-300" />
+        </div>
 
-          <line x1="142" y1="39" x2="154" y2="39" stroke="#64748b" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrLin)">
-            <animate attributeName="stroke-dashoffset" from="7" to="0" dur="0.5s" repeatCount="indefinite" />
-          </line>
+        {/* Node 2: Staging */}
+        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Staging</p>
+          <p className="text-[10px] text-slate-500">PostgreSQL</p>
+        </div>
 
-          {/* Node 2 — Staging & Validation */}
-          <rect x="156" y="20" width="140" height="38" rx="8" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" />
-          <text x="226" y="34" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#334155">Staging &amp; Validation</text>
-          <text x="226" y="47" textAnchor="middle" fontSize="8.5" fill="#475569">(PostgreSQL)</text>
+        {/* Chevron */}
+        <div className="flex items-center shrink-0">
+          <ChevronRight className="w-6 h-6 text-slate-300" />
+        </div>
 
-          <line x1="298" y1="39" x2="310" y2="39" stroke="#64748b" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrLin)">
-            <animate attributeName="stroke-dashoffset" from="7" to="0" dur="0.5s" begin="0.125s" repeatCount="indefinite" />
-          </line>
+        {/* Node 3: Warehouse */}
+        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Warehouse</p>
+          <p className="text-[10px] text-slate-500">Medallion</p>
+        </div>
 
-          {/* Node 3 — Medallion Warehouse (amber accent) */}
-          <rect x="312" y="20" width="145" height="38" rx="8" fill="#fffbeb" stroke="#f59e0b" strokeWidth="1.5" />
-          <text x="384" y="34" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#92400e">Medallion Warehouse</text>
-          <text x="384" y="47" textAnchor="middle" fontSize="8.5" fill="#b45309">(CRR Art. 416/422)</text>
+        {/* Chevron */}
+        <div className="flex items-center shrink-0">
+          <ChevronRight className="w-6 h-6 text-slate-300" />
+        </div>
 
-          <line x1="459" y1="39" x2="471" y2="39" stroke="#64748b" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrLin)">
-            <animate attributeName="stroke-dashoffset" from="7" to="0" dur="0.5s" begin="0.25s" repeatCount="indefinite" />
-          </line>
+        {/* Node 4: API */}
+        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">API</p>
+          <p className="text-[10px] text-slate-500">FastAPI</p>
+        </div>
 
-          {/* Node 4 — Aggregation API */}
-          <rect x="473" y="20" width="120" height="38" rx="8" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" />
-          <text x="533" y="34" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#334155">Aggregation API</text>
-          <text x="533" y="47" textAnchor="middle" fontSize="8.5" fill="#475569">(FastAPI)</text>
+        {/* Chevron */}
+        <div className="flex items-center shrink-0">
+          <ChevronRight className="w-6 h-6 text-slate-300" />
+        </div>
 
-          <line x1="595" y1="39" x2="607" y2="39" stroke="#64748b" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrLin)">
-            <animate attributeName="stroke-dashoffset" from="7" to="0" dur="0.5s" begin="0.375s" repeatCount="indefinite" />
-          </line>
-
-          {/* Node 5 — Intelligence Layer */}
-          <rect x="609" y="20" width="145" height="38" rx="8" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" />
-          <text x="681" y="34" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#334155">Intelligence Layer</text>
-          <text x="681" y="47" textAnchor="middle" fontSize="8.5" fill="#475569">(React / AI Chat)</text>
-        </svg>
+        {/* Node 5: Intelligence */}
+        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Intelligence</p>
+          <p className="text-[10px] text-slate-500">React UI</p>
+        </div>
       </div>
     </div>
   )
@@ -286,43 +287,40 @@ export function TracePanel({ onTrace }: { onTrace: (metric: Metric, quarter: str
   const steps: TraceStep[] = buildTrace(metric, quarter)
 
   return (
-    <div className="rounded-xl border border-amber-200 bg-white p-6 space-y-5">
+    <div className="rounded-xl border border-slate-200 bg-white p-6 space-y-5">
       <div>
-        <h2 className="text-lg font-bold" style={{ color: '#1B2A4A' }}>Trace a Number</h2>
-        <p className="text-sm text-gray-500 mt-1">Pick any metric and quarter to see the full audit trail from source file to dashboard figure.</p>
+        <h2 className="text-lg font-bold text-slate-900">Trace a Number</h2>
+        <p className="text-sm text-slate-500 mt-1">Pick any metric and quarter to see the full audit trail from source file to dashboard figure.</p>
       </div>
       <div className="flex flex-wrap gap-3">
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Metric</label>
+          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Metric</label>
           <select value={metric} onChange={e => { setMetric(e.target.value as Metric); setTraced(false) }}
-            className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300">
+            className="text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300">
             <option>LCR ratio</option>
             <option>NSFR ratio</option>
           </select>
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Quarter</label>
+          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Quarter</label>
           <select value={quarter} onChange={e => { setQuarter(e.target.value); setTraced(false) }}
-            className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300">
+            className="text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300">
             {QUARTERS.map(q => <option key={q}>{q}</option>)}
           </select>
         </div>
         <div className="flex flex-col justify-end">
           <button onClick={() => { setTraced(true); onTrace(metric, quarter) }}
-            className="text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
-            style={{ backgroundColor: '#F59E0B' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#D97706')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F59E0B')}>
+            className="text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors bg-amber-600 hover:bg-amber-700">
             Trace →
           </button>
         </div>
       </div>
       {traced && (
         <div className="pt-2">
-          <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-4">Audit Timeline — {metric} · {quarter}</p>
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-4">Audit Timeline — {metric} · {quarter}</p>
           <div className="relative pl-2">
             {/* Vertical connector line */}
-            <div className="absolute left-[19px] top-4 bottom-4 w-px bg-gray-200" />
+            <div className="absolute left-[19px] top-4 bottom-4 w-px bg-slate-200" />
             <div className="space-y-0">
               {steps.map((step, i) => (
                 <div key={step.layer} className="relative flex items-start gap-3 pb-4 last:pb-0">
@@ -331,14 +329,14 @@ export function TracePanel({ onTrace }: { onTrace: (metric: Metric, quarter: str
                     {i + 1}
                   </div>
                   {/* Content card */}
-                  <div className={`flex-1 min-w-0 rounded-lg border p-3 ${step.color}`}>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">{step.layer}</p>
-                    <p className="text-xs text-gray-600 leading-relaxed">{step.detail}</p>
+                  <div className={`flex-1 min-w-0 rounded-lg border bg-white p-3 ${step.color}`}>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-1">{step.layer}</p>
+                    <p className="text-xs text-slate-500 leading-relaxed">{step.detail}</p>
                     {i === 0 && (
-                      <div className="mt-2.5 rounded border border-amber-300 bg-amber-50 px-3 py-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-700 mb-0.5">Mapping Logic</p>
-                        <p className="text-xs text-amber-800 leading-relaxed">
-                          Mapped via <code className="font-mono font-semibold">ECB_SUP_{metric === 'LCR ratio' ? 'LCR' : 'NSFR'}</code> template to Basel III compliance rules.
+                      <div className="mt-2.5 rounded border border-amber-200 bg-white px-3 py-2">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-0.5">Mapping Logic</p>
+                        <p className="text-xs text-slate-500 leading-relaxed">
+                          {metric === 'LCR ratio' ? 'LCR' : 'NSFR'} reporting template mapped to Basel III compliance rules via CRR Article 416/422.
                         </p>
                       </div>
                     )}

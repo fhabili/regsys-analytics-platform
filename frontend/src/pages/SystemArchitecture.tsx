@@ -24,7 +24,7 @@ const TECH_STACK = [
     bg: 'bg-slate-50',
     border: 'border-slate-200',
     badge: 'bg-slate-100 text-slate-700',
-    items: ['PostgreSQL 16', 'SQLAlchemy', 'Medallion Architecture'],
+    items: ['PostgreSQL 16', 'SQLAlchemy', 'Medallion Architecture', 'BCBS 239 Compliant Lineage'],
   },
   {
     category: 'AI / LLM',
@@ -32,7 +32,7 @@ const TECH_STACK = [
     bg: 'bg-amber-50',
     border: 'border-amber-100',
     badge: 'bg-amber-100 text-amber-700',
-    items: ['Gemini API', 'Streaming JSON', 'Context injection'],
+    items: ['Gemini API', 'Context Injection', 'Streaming JSON'],
   },
 ]
 
@@ -46,40 +46,30 @@ export default function SystemArchitecture() {
         </p>
       </div>
 
-      {/* Three-tier architecture diagram (Slate/Navy) */}
+      {/* Architecture Overview — Horizontal Flow */}
       <div>
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">Architecture Overview</h2>
-        <div className="rounded-xl border border-gray-200 bg-white p-6 overflow-x-auto">
-          <svg viewBox="0 0 720 88" className="w-full min-w-[560px]"
-            aria-label="Three-tier architecture: Transaction Layer → Control Layer → Reporting Layer">
-            <defs>
-              <marker id="archArr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
-                <polygon points="0 0, 7 3.5, 0 7" fill="#64748b" />
-              </marker>
-            </defs>
+        <div className="flex flex-row gap-4 items-stretch">
+          {/* Column 1: Transaction Layer */}
+          <div className="flex-1 rounded-xl border border-gray-200 border-t-4 border-t-slate-500 bg-white p-6 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-1">Transaction Layer</h3>
+            <p className="text-xs text-gray-500 font-medium">ERP Ledger Posting Simulation</p>
+            <p className="text-xs text-gray-600 leading-relaxed mt-3">Simulates the accounting origin of data. System of record for journal entries and cash flow events.</p>
+          </div>
 
-            {/* Tier 1 */}
-            <rect x="0" y="14" width="210" height="58" rx="10" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" />
-            <text x="105" y="31" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="#64748b" letterSpacing="1.5">TRANSACTION LAYER</text>
-            <text x="105" y="47" textAnchor="middle" fontSize="11" fontWeight="700" fill="#1e293b">ERP Ledger Posting</text>
-            <text x="105" y="62" textAnchor="middle" fontSize="8.5" fill="#64748b">Python · PostgreSQL · SQLAlchemy</text>
+          {/* Column 2: Control Layer */}
+          <div className="flex-1 rounded-xl border border-gray-200 border-t-4 border-t-indigo-600 bg-white p-6 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-1">Control Layer</h3>
+            <p className="text-xs text-gray-500 font-medium">Financial Close Validation Engine</p>
+            <p className="text-xs text-gray-600 leading-relaxed mt-3">Automates financial close controls. Failures block data promotion, ensuring only validated figures reach the warehouse.</p>
+          </div>
 
-            <line x1="212" y1="43" x2="246" y2="43" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#archArr)" />
-
-            {/* Tier 2 */}
-            <rect x="248" y="14" width="222" height="58" rx="10" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" />
-            <text x="359" y="31" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="#64748b" letterSpacing="1.5">CONTROL LAYER</text>
-            <text x="359" y="47" textAnchor="middle" fontSize="11" fontWeight="700" fill="#1e293b">Financial Close Validation</text>
-            <text x="359" y="62" textAnchor="middle" fontSize="8.5" fill="#64748b">Python · FastAPI · Pydantic v2</text>
-
-            <line x1="472" y1="43" x2="506" y2="43" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#archArr)" />
-
-            {/* Tier 3 — filled navy */}
-            <rect x="508" y="14" width="212" height="58" rx="10" fill="#1B2A4A" stroke="#1B2A4A" strokeWidth="1.5" />
-            <text x="614" y="31" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="#94a3b8" letterSpacing="1.5">REPORTING LAYER</text>
-            <text x="614" y="47" textAnchor="middle" fontSize="11" fontWeight="700" fill="#f1f5f9">Basel III Dashboard</text>
-            <text x="614" y="62" textAnchor="middle" fontSize="8.5" fill="#94a3b8">React · FastAPI · PostgreSQL</text>
-          </svg>
+          {/* Column 3: Reporting Layer */}
+          <div className="flex-1 rounded-xl border border-gray-200 border-t-4 border-t-blue-600 bg-white p-6 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-1">Reporting Layer</h3>
+            <p className="text-xs text-gray-500 font-medium">Basel III Regulatory Dashboard</p>
+            <p className="text-xs text-gray-600 leading-relaxed mt-3">Computes LCR/NSFR ratios in real-time with a full provenance audit trail for Risk Managers and Regulators.</p>
+          </div>
         </div>
       </div>
 
@@ -108,7 +98,7 @@ export default function SystemArchitecture() {
         <div className="flex flex-col md:flex-row items-stretch gap-0">
           {REPOS.map((box, i) => (
             <>
-              <RepoCard key={box.repoLabel} box={box} index={i} />
+              <RepoCard key={box.repoLabel} box={box} />
               {i < REPOS.length - 1 && <ArchFlowArrow key={`arrow-${i}`} />}
             </>
           ))}

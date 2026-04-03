@@ -22,21 +22,17 @@ export function ArchFlowArrow() {
   )
 }
 
-export function RepoCard({ box, index }: { box: RepoBox; index: number }) {
+export function RepoCard({ box }: { box: RepoBox }) {
   return (
     <div className="flex-1 min-w-0 rounded-xl border border-[#E2E8F0] bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col">
       <div className="px-5 py-2 border-b border-[#E2E8F0] bg-gray-50 rounded-t-xl">
         <span className={`text-xs font-bold uppercase tracking-widest ${box.accent}`}>
-          {String(index + 1).padStart(2, '0')} — {box.layer}
+          {box.layer}
         </span>
       </div>
       <div className="p-5 flex flex-col gap-4 flex-1">
-        <div className="flex items-start gap-3">
-          <span className="text-xs font-bold uppercase tracking-widest px-2 py-1 rounded bg-gray-100 text-gray-500 shrink-0">{box.icon}</span>
-          <div>
-            <h3 className="font-bold text-gray-900 text-base leading-tight">{box.title}</h3>
-            <p className={`text-xs font-medium mt-0.5 ${box.accent}`}>{box.subtitle}</p>
-          </div>
+        <div>
+          <h3 className="font-bold text-gray-900 text-base leading-tight">{box.title}</h3>
         </div>
         <p className="text-sm text-gray-600 leading-relaxed flex-1">{box.description}</p>
         <div className="flex flex-wrap gap-1.5">

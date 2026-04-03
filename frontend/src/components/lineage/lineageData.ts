@@ -124,44 +124,36 @@ export function buildTrace(metric: Metric, quarter: string): TraceStep[] {
 
   return [
     {
-      layer: 'Source File',
-      color: 'border-slate-300 bg-slate-50',
+      layer: 'Primary ECB Excel Feed',
+      color: 'border-slate-200',
       icon: 'SRC',
       detail: isLcr
-        ? `data/raw/ecb_sup/ECB_SUP_LCR_*.xlsx — sheet "LCR", row where TIME_PERIOD="${qNoSpace}" and REF_AREA="U2". OBS_VALUE column contains the raw index figure.`
-        : `data/raw/ecb_sup/ECB_SUP_NSFR_*.xlsx — sheet "NSFR", row where TIME_PERIOD="${qNoSpace}" and REF_AREA="U2". OBS_VALUE column contains the raw index figure.`,
+        ? `Extracted 'LCR' value for ${quarter} (Area: U2). Source: ECB Supervisory Banking Statistics.`
+        : `Extracted 'NSFR' value for ${quarter} (Area: U2). Source: ECB Supervisory Banking Statistics.`
     },
     {
-      layer: 'Staging Row',
-      color: 'border-blue-200 bg-blue-50',
+      layer: 'Staging Archive',
+      color: 'border-slate-200',
       icon: 'STG',
-      detail: isLcr
-        ? `staging.ecb_supervisory_raw WHERE instrument='LCR_RATIO' AND ref_area='U2' AND time_period='${qNoSpace}' — load_ts records exactly when the file was ingested. source_file path preserved for audit.`
-        : `staging.ecb_supervisory_raw WHERE instrument='NSFR_RATIO' AND ref_area='U2' AND time_period='${qNoSpace}' — identically structured to LCR rows, same audit fields.`,
+      detail: `Raw data loaded verbatim into PostgreSQL and timestamped. Immutable record retained for 7-year regulatory audit window.`,
     },
     {
-      layer: 'Warehouse Record',
-      color: 'border-indigo-200 bg-indigo-50',
+      layer: 'CRR Art. 416 Transformation',
+      color: 'border-slate-200',
       icon: 'WH',
-      detail: isLcr
-        ? `warehouse.bank_lcr WHERE bank_id='ECB_EU_AGGREGATE' AND reference_date='${refDate}'. Fields: hqla_amount (HQLA index), net_outflow (30-day net outflow index), lcr_ratio = hqla_amount / net_outflow × 100. Computed by services/transform.py.`
-        : `warehouse.bank_nsfr WHERE bank_id='ECB_EU_AGGREGATE' AND reference_date='${refDate}'. Fields: asf_amount (Available Stable Funding), rsf_amount (Required Stable Funding), nsfr_ratio = asf_amount / rsf_amount × 100.`,
+      detail: `Net Outflows and HQLA computed under CRR Art. 416/422. Medallion pipeline applies Basel III regulatory run-off rates.`,
     },
     {
-      layer: 'API Response',
-      color: 'border-emerald-200 bg-emerald-50',
+      layer: 'FastAPI Metrics',
+      color: 'border-slate-200',
       icon: 'API',
-      detail: isLcr
-        ? `The LCR metrics endpoint returns response.banks[0].lcr_ratio for this record. The same figure is also available in the Summary endpoint as lcr_ratio (latest quarter) and lcr_trend[].lcr_ratio (all quarters). The value you see on the dashboard is this exact field.`
-        : `The NSFR metrics endpoint returns response.banks[0].nsfr_ratio for this record. The same figure is surfaced in the Summary endpoint as nsfr_ratio (latest quarter). The value you see on the NSFR Detail page and Executive Summary card is this exact field.`,
+      detail: `Typed JSON endpoint served by FastAPI from warehouse views. Consumed by Executive Dashboard and detail pages.`,
     },
     {
-      layer: 'Dashboard Figure',
-      color: 'border-emerald-300 bg-emerald-100',
+      layer: 'Executive UI',
+      color: 'border-slate-200',
       icon: 'UI',
-      detail: isLcr
-        ? `Displayed on the Executive Summary page (LCR card) and LCR Detail page (trend chart + stat cards). If you opened the stress test slider, the displayed value is lcr_ratio × (1 − shock/100) — but the underlying warehouse record is unchanged.`
-        : `Displayed on the Executive Summary page (NSFR card) and NSFR Detail page (trend chart + stat cards). The stress test slider on Executive Summary applies the same shock coefficient to this value.`,
+      detail: `Final figure displayed on the dashboard. Value is static unless a Stress-Test scenario applies shock multipliers.`,
     },
   ]
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Layers } from 'lucide-react'
 import { NavBar } from './components/layout/NavBar'
 import { ChatPanel } from './components/chat/ChatPanel'
 import Home from './pages/Home'
@@ -12,6 +11,7 @@ const tabs = [
   { id: 'overview',     label: 'Executive Terminal', accent: '#10B981' },
   { id: 'liquidity',    label: 'Liquidity',     accent: '#2563EB' },
   { id: 'governance',   label: 'Governance',    accent: '#F59E0B' },
+  { id: 'architecture', label: 'About',         accent: '#374151' },
 ]
 
 function App() {
@@ -56,17 +56,7 @@ function App() {
               </div>
             )}
           </div>
-          {/* Secondary navigation — System Architecture */}
-          <div className="border-t border-gray-200 p-4 flex justify-center">
-            <button
-              onClick={() => navigate('architecture')}
-              className="flex flex-col items-center gap-1.5 rounded-lg px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-              title="System Architecture"
-            >
-              <Layers className="w-4 h-4" />
-              <span className="text-[9px] font-semibold tracking-widest uppercase">Architecture</span>
-            </button>
-          </div>
+
         </aside>
 
         {/* Main content */}

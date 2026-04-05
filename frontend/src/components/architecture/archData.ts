@@ -49,7 +49,7 @@ export const REPOS: RepoBox[] = [
   },
   {
     layer: 'Reporting Layer',
-    title: 'Basel III Regulatory Dashboard',
+    title: 'Liquidity Risk Reporting Terminal',
     subtitle: 'Record-to-Report — Output',
     description:
       'Computes LCR/NSFR ratios in real-time with a full provenance audit trail for Risk Managers and Regulators.',

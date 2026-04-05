@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react'
 import type { RepoBox } from './archData'
 
 function GithubIcon({ className }: { className?: string }) {
@@ -10,14 +11,8 @@ function GithubIcon({ className }: { className?: string }) {
 
 export function ArchFlowArrow() {
   return (
-    <div className="hidden md:flex flex-col items-center justify-center px-2 shrink-0" style={{ width: 56 }}>
-      <svg width="40" height="16" viewBox="0 0 40 16" overflow="visible">
-        <line x1="0" y1="8" x2="30" y2="8" stroke="#64748b" strokeWidth="1.5" strokeDasharray="4 3">
-          <animate attributeName="stroke-dashoffset" from="7" to="0" dur="0.5s" repeatCount="indefinite" />
-        </line>
-        <path d="M30 4 L40 8 L30 12" fill="none" stroke="#64748b" strokeWidth="1.5" strokeLinejoin="round" />
-      </svg>
-      <p className="text-xs text-gray-400 mt-1 text-center leading-tight whitespace-nowrap">data flow</p>
+    <div className="hidden md:flex items-center justify-center shrink-0" style={{ width: 56 }}>
+      <ArrowRight size={20} color="#9CA3AF" />
     </div>
   )
 }
@@ -25,11 +20,6 @@ export function ArchFlowArrow() {
 export function RepoCard({ box }: { box: RepoBox }) {
   return (
     <div className="flex-1 min-w-0 rounded-xl border border-[#E2E8F0] bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col">
-      <div className="px-5 py-2 border-b border-[#E2E8F0] bg-gray-50 rounded-t-xl">
-        <span className={`text-xs font-bold uppercase tracking-widest ${box.accent}`}>
-          {box.layer}
-        </span>
-      </div>
       <div className="p-5 flex flex-col gap-4 flex-1">
         <div>
           <h3 className="font-bold text-gray-900 text-base leading-tight">{box.title}</h3>

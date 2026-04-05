@@ -11,9 +11,10 @@ const STARTERS = [
 interface SidebarProps {
   open: boolean
   onToggle: () => void
+  mobileModal?: boolean
 }
 
-export function Sidebar({ open, onToggle }: SidebarProps) {
+export function Sidebar({ open, onToggle, mobileModal = false }: SidebarProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput]       = useState('')
   const [sending, setSending]   = useState(false)
@@ -44,7 +45,7 @@ export function Sidebar({ open, onToggle }: SidebarProps) {
 
   return (
     <aside
-      className="hidden md:flex flex-col shrink-0 min-h-0 border-r border-gray-200 bg-white transition-[width] duration-300 ease-in-out overflow-hidden"
+      className={`${mobileModal ? 'flex' : 'hidden md:flex'} flex-col shrink-0 min-h-0 border-r border-gray-200 bg-white transition-[width] duration-300 ease-in-out overflow-hidden`}
       style={{ width: open ? 320 : 48 }}
     >
       {open ? (

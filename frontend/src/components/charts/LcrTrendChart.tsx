@@ -31,8 +31,9 @@ export function LcrTrendChart({ data, showBrush, rangeYears }: LcrTrendChartProp
   const dMax = validValues.length ? Math.max(...validValues) : 200
 
   return (
-    <ResponsiveContainer width="100%" height={isMobile ? 280 : 260}>
-      <AreaChart data={data} margin={{ top: 20, right: 0, left: 0, bottom: showBrush ? 24 : 20 }}>
+    <div className="w-full overflow-visible">
+      <ResponsiveContainer width="100%" height={isMobile ? 280 : 260}>
+        <AreaChart data={data} margin={{ top: 20, right: 0, left: 0, bottom: showBrush ? 24 : 20 }}>
         <defs>
           <linearGradient id="lcrFill2" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#2563EB" stopOpacity={0.18} />
@@ -52,5 +53,6 @@ export function LcrTrendChart({ data, showBrush, rangeYears }: LcrTrendChartProp
         {showBrush && <Brush dataKey="quarter" height={24} stroke="#2563EB" travellerWidth={8} fill="#EFF6FF" />}
       </AreaChart>
     </ResponsiveContainer>
+    </div>
   )
 }

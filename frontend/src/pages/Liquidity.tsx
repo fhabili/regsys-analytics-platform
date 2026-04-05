@@ -18,7 +18,7 @@ export default function Liquidity() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold" style={{ color: '#1B2A4A' }}>Liquidity</h1>
-        <p className="text-sm text-gray-500 mt-1">Basel III liquidity ratios — LCR and NSFR</p>
+        <p className="text-sm text-gray-500 mt-1">Basel III liquidity ratios: LCR and NSFR</p>
       </div>
 
       {/* sub-tabs */}

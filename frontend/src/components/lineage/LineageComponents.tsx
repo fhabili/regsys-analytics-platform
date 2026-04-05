@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ArrowDown, ArrowRight } from 'lucide-react'
 import type { Layer, Metric, TraceStep } from './lineageData'
 import { buildTrace, QUARTERS } from './lineageData'
 
@@ -214,56 +214,76 @@ export function DataFlowDiagram() {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6">
       <h2 className="text-base font-semibold text-slate-900 mb-1">Data Flow Overview</h2>
-      <p className="text-xs text-slate-500 mb-5">Regulatory source data flows left → right through validation and transformation into a single Basel III reporting surface.</p>
-      <div className="flex flex-row gap-4 items-stretch mb-8 overflow-x-auto">
-        {/* Node 1: Raw Feeds */}
-        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
-          <p className="text-xs font-bold text-slate-900">Raw Feeds</p>
-          <p className="text-[10px] text-slate-500">ECB / BISTA</p>
+      <p className="text-xs text-slate-500 mb-5">Regulatory source data moves through five structured layers, from raw ingestion to validated dashboard metrics.</p>
+      <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-stretch mb-8 overflow-x-auto">
+        {/* Node 1: Source Data */}
+        <div className="w-full md:w-auto flex-1 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Source Data</p>
+          <p className="text-[10px] text-slate-500">ECB and Bundesbank</p>
         </div>
 
-        {/* Chevron */}
-        <div className="flex items-center shrink-0">
-          <ChevronRight className="w-6 h-6 text-slate-300" />
+        {/* Arrow — Responsive */}
+        <div className="flex md:items-center md:shrink-0 w-full md:w-auto justify-center">
+          <div className="block md:hidden">
+            <ArrowDown className="w-6 h-6 text-slate-300" />
+          </div>
+          <div className="hidden md:block">
+            <ArrowRight className="w-6 h-6 text-slate-300" />
+          </div>
         </div>
 
-        {/* Node 2: Staging */}
-        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
-          <p className="text-xs font-bold text-slate-900">Staging</p>
-          <p className="text-[10px] text-slate-500">PostgreSQL</p>
+        {/* Node 2: Data Archive */}
+        <div className="w-full md:w-auto flex-1 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Data Archive</p>
+          <p className="text-[10px] text-slate-500">Immutable Storage</p>
         </div>
 
-        {/* Chevron */}
-        <div className="flex items-center shrink-0">
-          <ChevronRight className="w-6 h-6 text-slate-300" />
+        {/* Arrow — Responsive */}
+        <div className="flex md:items-center md:shrink-0 w-full md:w-auto justify-center">
+          <div className="block md:hidden">
+            <ArrowDown className="w-6 h-6 text-slate-300" />
+          </div>
+          <div className="hidden md:block">
+            <ArrowRight className="w-6 h-6 text-slate-300" />
+          </div>
         </div>
 
-        {/* Node 3: Warehouse */}
-        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
-          <p className="text-xs font-bold text-slate-900">Warehouse</p>
-          <p className="text-[10px] text-slate-500">Medallion</p>
+        {/* Node 3: Data Warehouse */}
+        <div className="w-full md:w-auto flex-1 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Data Warehouse</p>
+          <p className="text-[10px] text-slate-500">Validated and Structured</p>
         </div>
 
-        {/* Chevron */}
-        <div className="flex items-center shrink-0">
-          <ChevronRight className="w-6 h-6 text-slate-300" />
+        {/* Arrow — Responsive */}
+        <div className="flex md:items-center md:shrink-0 w-full md:w-auto justify-center">
+          <div className="block md:hidden">
+            <ArrowDown className="w-6 h-6 text-slate-300" />
+          </div>
+          <div className="hidden md:block">
+            <ArrowRight className="w-6 h-6 text-slate-300" />
+          </div>
         </div>
 
-        {/* Node 4: API */}
-        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
-          <p className="text-xs font-bold text-slate-900">API</p>
-          <p className="text-[10px] text-slate-500">FastAPI</p>
+        {/* Node 4: Data Service */}
+        <div className="w-full md:w-auto flex-1 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Data Service</p>
+          <p className="text-[10px] text-slate-500">Metrics Delivery</p>
         </div>
 
-        {/* Chevron */}
-        <div className="flex items-center shrink-0">
-          <ChevronRight className="w-6 h-6 text-slate-300" />
+        {/* Arrow — Responsive */}
+        <div className="flex md:items-center md:shrink-0 w-full md:w-auto justify-center">
+          <div className="block md:hidden">
+            <ArrowDown className="w-6 h-6 text-slate-300" />
+          </div>
+          <div className="hidden md:block">
+            <ArrowRight className="w-6 h-6 text-slate-300" />
+          </div>
         </div>
 
-        {/* Node 5: Intelligence */}
-        <div className="flex-1 min-w-[140px] rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
-          <p className="text-xs font-bold text-slate-900">Intelligence</p>
-          <p className="text-[10px] text-slate-500">React UI</p>
+        {/* Node 5: Dashboard */}
+        <div className="w-full md:w-auto flex-1 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white p-4 flex flex-col justify-center text-center">
+          <p className="text-xs font-bold text-slate-900">Dashboard</p>
+          <p className="text-[10px] text-slate-500">Executive Terminal</p>
         </div>
       </div>
     </div>
@@ -317,7 +337,7 @@ export function TracePanel({ onTrace }: { onTrace: (metric: Metric, quarter: str
       </div>
       {traced && (
         <div className="pt-2">
-          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-4">Audit Timeline — {metric} · {quarter}</p>
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-4">Audit Timeline: {metric} · {quarter}</p>
           <div className="relative pl-2">
             {/* Vertical connector line */}
             <div className="absolute left-[19px] top-4 bottom-4 w-px bg-slate-200" />
@@ -334,9 +354,9 @@ export function TracePanel({ onTrace }: { onTrace: (metric: Metric, quarter: str
                     <p className="text-xs text-slate-500 leading-relaxed">{step.detail}</p>
                     {i === 0 && (
                       <div className="mt-2.5 rounded border border-amber-200 bg-white px-3 py-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-0.5">Mapping Logic</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-0.5">Regulatory Mapping</p>
                         <p className="text-xs text-slate-500 leading-relaxed">
-                          {metric === 'LCR ratio' ? 'LCR' : 'NSFR'} reporting template mapped to Basel III compliance rules via CRR Article 416/422.
+                          Source fields aligned to Basel III metric definitions before ingestion.
                         </p>
                       </div>
                     )}

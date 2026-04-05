@@ -21,7 +21,7 @@ export default function DataQuality() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Data Quality</h1>
-        <p className="text-sm text-slate-500 mt-1">Validation rule results — current reporting cycle</p>
+        <p className="text-sm text-slate-500 mt-1">Validation rule results: current reporting cycle</p>
       </div>
 
       <div className="flex gap-3 rounded-xl border border-slate-200 border-t-4 border-t-amber-500 bg-white px-5 py-4">
@@ -29,8 +29,8 @@ export default function DataQuality() {
         <p className="text-sm text-slate-600 leading-relaxed">
           <span className="font-semibold">About this tab: </span>
           This tab shows the output of automated validation rules that run after every data ingestion.
-          In regulatory reporting environments, silent data errors are more dangerous than visible failures
-          — this pipeline is designed to surface issues before they reach the report.
+          In regulatory reporting environments, silent data errors are more dangerous than visible failures.
+          This pipeline is designed to surface issues before they reach the report.
         </p>
       </div>
 
@@ -79,7 +79,7 @@ export default function DataQuality() {
                 <th className="px-4 py-3 font-semibold text-slate-600">Rule ID</th>
                 <th className="px-4 py-3 font-semibold text-slate-600">Rule Name</th>
                 <th className="px-4 py-3 font-semibold text-slate-600">Severity</th>
-                <th className="px-4 py-3 font-semibold text-slate-600">Reg. Impact</th>
+                <th className="px-4 py-3 font-semibold text-slate-600 hidden md:table-cell">Reg. Impact</th>
                 <th className="px-4 py-3 font-semibold text-slate-600 text-right">Passed</th>
                 <th className="px-4 py-3 font-semibold text-slate-600 text-right">Failed</th>
                 <th className="px-4 py-3 font-semibold text-slate-600 text-right">Pass Rate</th>
@@ -105,7 +105,7 @@ export default function DataQuality() {
                       <td className="px-4 py-3">
                         <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${SEV_BADGE[rule.severity]}`}>{rule.severity}</span>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 hidden md:table-cell">
                         <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${
                           rule.regulatoryImpact === 'High' ? 'bg-red-100 text-red-700'
                           : rule.regulatoryImpact === 'Medium' ? 'bg-amber-100 text-amber-700'

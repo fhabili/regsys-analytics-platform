@@ -60,19 +60,29 @@ export function ExecutiveLcrChart({ data, showBrush }: ExecutiveLcrChartProps) {
         <ReferenceLine y={100} stroke="#EF4444" strokeDasharray="3 3" strokeWidth={2}
           label={{ value: '100% min', position: 'right', fontSize: 9, fill: '#EF4444' }} />
         <ReferenceArea x1="2020Q1" x2="2020Q3" fill="#FEF9C3" fillOpacity={0.5}
-          label={({ viewBox }: any) => (
-            <text x={viewBox.x + 4} y={viewBox.y + 10} fontSize={9} fill="#92400E">
-              <tspan x={viewBox.x + 4} dy="0">COVID-19</tspan>
-              <tspan x={viewBox.x + 4} dy="12">Impact</tspan>
-            </text>
-          )} />
+          label={({ viewBox }: any) => {
+            if (typeof window !== 'undefined' && window.innerWidth < 768) return null
+            return (
+              <g>
+                <rect x={viewBox.x + 4} y={viewBox.y + 10} width={72} height={18} rx={3} fill="white" fillOpacity={0.85} />
+                <text x={viewBox.x + 40} y={viewBox.y + 23} fontSize={10} fill="#92400E" textAnchor="middle" fontWeight="600">
+                  COVID-19
+                </text>
+              </g>
+            )
+          }} />
         <ReferenceArea x1="2022Q1" x2="2022Q3" fill="#FEE2E2" fillOpacity={0.45}
-          label={({ viewBox }: any) => (
-            <text x={viewBox.x + 4} y={viewBox.y + 10} fontSize={9} fill="#6B7280">
-              <tspan x={viewBox.x + 4} dy="0">Geopolitical</tspan>
-              <tspan x={viewBox.x + 4} dy="12">Shock</tspan>
-            </text>
-          )} />
+          label={({ viewBox }: any) => {
+            if (typeof window !== 'undefined' && window.innerWidth < 768) return null
+            return (
+              <g>
+                <rect x={viewBox.x + 4} y={viewBox.y + 10} width={80} height={18} rx={3} fill="white" fillOpacity={0.85} />
+                <text x={viewBox.x + 44} y={viewBox.y + 23} fontSize={10} fill="#4B5563" textAnchor="middle" fontWeight="600">
+                  Geopolitical Shock
+                </text>
+              </g>
+            )
+          }} />
         <Area
           type="monotone"
           dataKey="lcr_ratio"

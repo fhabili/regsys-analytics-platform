@@ -35,7 +35,7 @@ export function StressTestPanel({ shock, onShockChange, stressedLcr, stressedNsf
           onChange={e => onShockChange(Number(e.target.value))}
           className="flex-1 accent-emerald-600"
         />
-        <span className="text-xs text-gray-500 w-24 shrink-0 text-right">
+        <span className="text-xs text-gray-500 hidden sm:block w-24 shrink-0 text-right">
           {shock > 0 ? `−${shock}% applied` : 'No shock'}
         </span>
       </div>

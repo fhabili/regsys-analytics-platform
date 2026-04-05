@@ -1,3 +1,4 @@
+
 export interface Tab {
   id: string
   label: string
@@ -26,46 +27,49 @@ export function NavBar({ tabs, activeTab, menuOpen, onNavigate, onToggleMenu, on
             className="text-left group flex flex-col justify-center py-4 pr-10 transition-colors duration-200"
           >
             <h1 className="text-lg font-bold tracking-tight transition-colors duration-200 group-hover:text-blue-600" style={{ color: '#1B2A4A' }}>
-              Liquidity Risk Reporting System
+              Liquidity Risk Reporting
             </h1>
             <p className="text-xs font-medium mt-0.5 tracking-wide uppercase" style={{ color: activeAccent }}>
-              Basel III Regulatory Intelligence Platform
+              Basel III Data Platform
             </p>
           </button>
 
-          {/* Desktop tabs */}
-          <nav className="hidden md:flex items-stretch">
-            {tabs.map(tab => {
-              const isActive = activeTab === tab.id
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => onNavigate(tab.id)}
-                  className="relative px-6 flex items-center text-sm font-medium transition-colors duration-200"
-                  style={{ color: isActive ? tab.accent : '#6B7280' }}
-                >
-                  {tab.label}
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0 left-0 w-full h-0.5 rounded-t"
-                      style={{ backgroundColor: tab.accent }}
-                    />
-                  )}
-                </button>
-              )
-            })}
-          </nav>
+          {/* Desktop tabs + mobile hamburger */}
+          <div className="flex items-center">
+            {/* Desktop tabs */}
+            <nav className="hidden md:flex items-stretch">
+              {tabs.map(tab => {
+                const isActive = activeTab === tab.id
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => onNavigate(tab.id)}
+                    className="relative px-6 flex items-center text-sm font-medium transition-colors duration-200"
+                    style={{ color: isActive ? tab.accent : '#6B7280' }}
+                  >
+                    {tab.label}
+                    {isActive && (
+                      <span
+                        className="absolute bottom-0 left-0 w-full h-0.5 rounded-t"
+                        style={{ backgroundColor: tab.accent }}
+                      />
+                    )}
+                  </button>
+                )
+              })}
+            </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-gray-100 transition-colors self-center"
-            onClick={onToggleMenu}
-            aria-label="Toggle navigation"
-          >
-            <span className={`block w-5 h-0.5 bg-gray-700 transition-transform duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-5 h-0.5 bg-gray-700 transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block w-5 h-0.5 bg-gray-700 transition-transform duration-200 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-          </button>
+            {/* Mobile hamburger */}
+            <button
+              className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-gray-100 transition-colors self-center"
+              onClick={onToggleMenu}
+              aria-label="Toggle navigation"
+            >
+              <span className={`block w-5 h-0.5 bg-gray-700 transition-transform duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-gray-700 transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-gray-700 transition-transform duration-200 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </button>
+          </div>
         </div>
       </header>
 

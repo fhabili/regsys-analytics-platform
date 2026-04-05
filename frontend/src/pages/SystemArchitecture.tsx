@@ -1,4 +1,5 @@
-﻿import { REPOS } from '../components/architecture/archData'
+﻿import { ArrowRight, ArrowDown } from 'lucide-react'
+import { REPOS } from '../components/architecture/archData'
 import { RepoCard, ArchFlowArrow } from '../components/architecture/ArchComponents'
 
 const TECH_STACK = [
@@ -42,33 +43,60 @@ export default function SystemArchitecture() {
       <div>
         <h1 className="text-2xl font-bold" style={{ color: '#1B2A4A' }}>System Architecture</h1>
         <p className="text-sm text-gray-500 mt-1">
-          End-to-end Record-to-Report lifecycle — three interconnected systems covering transaction origination, financial close controls, and regulatory reporting.
+          Record-to-Report lifecycle across three interconnected system layers
         </p>
       </div>
 
-      {/* Architecture Overview — Horizontal Flow */}
-      <div>
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">Architecture Overview</h2>
-        <div className="flex flex-row gap-4 items-stretch">
-          {/* Column 1: Transaction Layer */}
-          <div className="flex-1 rounded-xl border border-gray-200 border-t-4 border-t-slate-500 bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-1">Transaction Layer</h3>
-            <p className="text-xs text-gray-500 font-medium">ERP Ledger Posting Simulation</p>
-            <p className="text-xs text-gray-600 leading-relaxed mt-3">Simulates the accounting origin of data. System of record for journal entries and cash flow events.</p>
+      <div className="flex gap-3 rounded-xl border border-slate-200 border-t-4 border-t-gray-500 bg-white px-5 py-4">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-gray-500"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          <span className="font-semibold">About this page: </span>
+          This page documents the end-to-end system design behind the dashboard. The Transaction Layer simulates ERP ledger origination and cash flow events. The Control Layer applies automated financial close validation rules, blocking any data that fails quality checks from reaching the warehouse. The Reporting Layer consumes only clean validated data to compute and display regulatory metrics.
+        </p>
+      </div>
+
+      {/* Architecture Overview — Pipeline Flow */}
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-0">
+          {/* Transaction Layer */}
+          <div className="flex-1 w-full rounded-lg border border-gray-200 border-t-4 border-t-blue-500 bg-white p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-2">Transaction Layer</p>
+            <h3 className="text-sm font-bold text-gray-900 mb-2">ERP Origination</h3>
+            <p className="text-sm text-gray-500">Captures business events as auditable journal entries</p>
           </div>
 
-          {/* Column 2: Control Layer */}
-          <div className="flex-1 rounded-xl border border-gray-200 border-t-4 border-t-indigo-600 bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-1">Control Layer</h3>
-            <p className="text-xs text-gray-500 font-medium">Financial Close Validation Engine</p>
-            <p className="text-xs text-gray-600 leading-relaxed mt-3">Automates financial close controls. Failures block data promotion, ensuring only validated figures reach the warehouse.</p>
+          {/* Arrow — Responsive */}
+          <div className="flex justify-center py-3 md:py-0 md:px-3 md:flex-shrink-0 w-full md:w-auto">
+            <div className="block md:hidden">
+              <ArrowDown size={24} color="#9CA3AF" />
+            </div>
+            <div className="hidden md:block">
+              <ArrowRight size={24} color="#9CA3AF" />
+            </div>
           </div>
 
-          {/* Column 3: Reporting Layer */}
-          <div className="flex-1 rounded-xl border border-gray-200 border-t-4 border-t-blue-600 bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-1">Reporting Layer</h3>
-            <p className="text-xs text-gray-500 font-medium">Basel III Regulatory Dashboard</p>
-            <p className="text-xs text-gray-600 leading-relaxed mt-3">Computes LCR/NSFR ratios in real-time with a full provenance audit trail for Risk Managers and Regulators.</p>
+          {/* Control Layer */}
+          <div className="flex-1 w-full rounded-lg border border-gray-200 border-t-4 border-t-amber-500 bg-white p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-amber-500 mb-2">Control Layer</p>
+            <h3 className="text-sm font-bold text-gray-900 mb-2">Close Validation</h3>
+            <p className="text-sm text-gray-500">Blocks invalid data before it reaches the warehouse</p>
+          </div>
+
+          {/* Arrow — Responsive */}
+          <div className="flex justify-center py-3 md:py-0 md:px-3 md:flex-shrink-0 w-full md:w-auto">
+            <div className="block md:hidden">
+              <ArrowDown size={24} color="#9CA3AF" />
+            </div>
+            <div className="hidden md:block">
+              <ArrowRight size={24} color="#9CA3AF" />
+            </div>
+          </div>
+
+          {/* Reporting Layer */}
+          <div className="flex-1 w-full rounded-lg border border-gray-200 border-t-4 border-t-emerald-500 bg-white p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-emerald-500 mb-2">Reporting Layer</p>
+            <h3 className="text-sm font-bold text-gray-900 mb-2">Regulatory Reporting</h3>
+            <p className="text-sm text-gray-500">Delivers validated Basel III metrics with full lineage</p>
           </div>
         </div>
       </div>
@@ -92,9 +120,9 @@ export default function SystemArchitecture() {
         </div>
       </div>
 
-      {/* Repository Overview */}
+      {/* System Layers */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-5">Repository Overview</h2>
+        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-5">System Layers</h2>
         <div className="flex flex-col md:flex-row items-stretch gap-0">
           {REPOS.map((box, i) => (
             <>

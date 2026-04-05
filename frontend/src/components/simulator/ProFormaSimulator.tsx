@@ -62,7 +62,7 @@ export function ProFormaSimulator() {
       <div>
         <h2 className="text-base font-semibold text-gray-900">Strategic Pro-Forma Simulator</h2>
         <p className="text-xs text-gray-400 mt-0.5">
-          Model the LCR impact of a transaction before execution — frontend-only, no data is sent.
+          Pre-Trade Analytics: Model the marginal LCR impact of balance sheet adjustments using Basel III run-off weights.
         </p>
       </div>
 
@@ -125,7 +125,7 @@ export function ProFormaSimulator() {
         </div>
       </div>
       <p className="text-xs text-gray-400 -mt-3">
-        {isHqlaType ? 'Run-off weight: 0% (Level 1 HQLA — no haircut)' : `CRR run-off weight: ${weight}`}
+        {isHqlaType ? 'Run-off weight: 0% (Level 1 HQLA, no haircut)' : `CRR run-off weight: ${weight}`}
       </p>
 
       {/* regulatory alert */}
@@ -161,7 +161,7 @@ export function ProFormaSimulator() {
               {result.delta >= 0 ? '+' : ''}{result.delta.toFixed(2)}pp
             </span>
             {result.proFormaLcr < 100 && (
-              <span className="text-xs font-bold text-red-600">Breach — below 100% floor</span>
+              <span className="text-xs font-bold text-red-600">Breach: below 100% floor</span>
             )}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">

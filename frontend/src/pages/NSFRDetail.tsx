@@ -1,6 +1,5 @@
 ﻿import { useState, useEffect, useMemo } from 'react'
 import { fetchNsfr, type NsfrResponse, dateToQuarter } from '../api'
-import { StatCard } from '../components/cards/StatCard'
 import { Sparkline } from '../components/charts/Sparkline'
 import { NsfrTrendChart } from '../components/charts/NsfrTrendChart'
 import { AsfRsfBarChart } from '../components/charts/AsfRsfBarChart'
@@ -54,7 +53,15 @@ export default function NSFRDetail() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">NSFR Detail</h1>
-        <p className="text-sm text-gray-500 mt-1">Net Stable Funding Ratio — EU Banking Sector (ECB Aggregate, quarterly)</p>
+        <p className="text-sm text-gray-500 mt-1">Net Stable Funding Ratio: EU Banking Sector (ECB Aggregate, quarterly)</p>
+      </div>
+
+      <div className="flex gap-3 rounded-xl border border-slate-200 border-t-4 border-t-blue-500 bg-white px-5 py-4">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-blue-500"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          <span className="font-semibold">About NSFR: </span>
+          The Net Stable Funding Ratio measures whether a bank funding structure is stable over a one-year horizon. Available Stable Funding must exceed Required Stable Funding for compliance. A ratio above 100% indicates compliance with Basel III requirements. ECB data for this metric is available from 2021 onwards.
+        </p>
       </div>
 
       {error && (
@@ -66,23 +73,28 @@ export default function NSFRDetail() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard label="NSFR Ratio"
-          value={latest?.nsfr_ratio != null ? `${latest.nsfr_ratio.toFixed(1)}%` : '—'}
-          sub={`Latest: ${latest?.reference_date ? dateToQuarter(latest.reference_date) : '…'}`}
-          highlight />
-        <StatCard label="Available Stable Funding (ASF)"
-          value={latest?.asf_amount != null ? `€${latest.asf_amount.toFixed(1)}B` : '—'}
-          sub="ECB published index value" />
-        <StatCard label="Required Stable Funding (RSF)"
-          value={latest?.rsf_amount != null ? `€${latest.rsf_amount.toFixed(1)}B` : '—'}
-          sub="ECB published index value" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div className="rounded-xl border p-6 border-blue-200" style={{ backgroundColor: 'rgb(239, 246, 255)' }}>
+          <p className="text-xs uppercase tracking-wide font-semibold" style={{ color: 'rgb(37, 99, 235)' }}>NSFR Ratio</p>
+          <p className="text-3xl font-bold mt-1" style={{ color: 'rgb(37, 99, 235)' }}>{latest?.nsfr_ratio != null ? `${latest.nsfr_ratio.toFixed(1)}%` : '—'}</p>
+          <p className="mt-1 text-xs text-gray-400">{`Latest: ${latest?.reference_date ? dateToQuarter(latest.reference_date) : '…'}`}</p>
+        </div>
+        <div className="rounded-xl border p-6 bg-white border-gray-200">
+          <p className="text-xs uppercase tracking-wide font-semibold text-gray-500">Available Stable Funding (ASF)</p>
+          <p className="text-3xl font-bold mt-1 text-gray-900">{latest?.asf_amount != null ? `€${latest.asf_amount.toFixed(1)}B` : '—'}</p>
+          <p className="mt-1 text-xs text-gray-400">As of 2025 Q4</p>
+        </div>
+        <div className="rounded-xl border p-6 bg-white border-gray-200">
+          <p className="text-xs uppercase tracking-wide font-semibold text-gray-500">Required Stable Funding (RSF)</p>
+          <p className="text-3xl font-bold mt-1 text-gray-900">{latest?.rsf_amount != null ? `€${latest.rsf_amount.toFixed(1)}B` : '—'}</p>
+          <p className="mt-1 text-xs text-gray-400">1-year Structural Horizon</p>
+        </div>
       </div>
 
       {/* Trend chart */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-gray-800">NSFR Ratio — Quarterly Trend</h2>
+          <h2 className="text-base font-semibold text-gray-800">NSFR Ratio: Quarterly Trend</h2>
           <div className="flex gap-1">
             {RANGE_OPTIONS.map(opt => (
               <button key={opt.label} onClick={() => setRangeYears(opt.years)}
@@ -96,13 +108,13 @@ export default function NSFRDetail() {
           ? <NsfrTrendChart data={ratioTrend} rangeYears={rangeYears} showBrush={true} />
           : <p className="text-sm text-gray-400 text-center py-10">{data ? 'No data available.' : 'Loading…'}</p>
         }
-        <p className="mt-3 text-xs text-gray-400">Source: ECB Supervisory Banking Statistics. Annotations mark macro-economic events (COVID-19 Impact Q1 2020; Geopolitical Shock Q1 2022).</p>
+        <p className="mt-3 text-xs text-gray-400">Source: ECB Supervisory Banking Statistics. Values are ECB published indices.</p>
       </div>
 
       {/* ASF vs RSF */}
       {fundingData.length > 0 && (
         <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-4">ASF vs RSF — Last 12 Quarters</h2>
+          <h2 className="text-base font-semibold text-gray-800 mb-4">ASF vs RSF: Last 12 Quarters</h2>
           <AsfRsfBarChart data={fundingData} />
           <p className="mt-2 text-xs text-gray-400">Source: ECB Supervisory Banking Statistics. Values are ECB published indices.</p>
         </div>

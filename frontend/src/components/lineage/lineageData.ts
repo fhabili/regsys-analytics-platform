@@ -124,36 +124,36 @@ export function buildTrace(metric: Metric, quarter: string): TraceStep[] {
 
   return [
     {
-      layer: 'Primary ECB Excel Feed',
+      layer: 'Source Data Extraction',
       color: 'border-slate-200',
       icon: 'SRC',
       detail: isLcr
-        ? `Extracted 'LCR' value for ${quarter} (Area: U2). Source: ECB Supervisory Banking Statistics.`
-        : `Extracted 'NSFR' value for ${quarter} (Area: U2). Source: ECB Supervisory Banking Statistics.`
+        ? `LCR ratio for the selected quarter retrieved from ECB Supervisory Banking Statistics, covering Significant Institutions under the Single Supervisory Mechanism.`
+        : `NSFR ratio for the selected quarter retrieved from ECB Supervisory Banking Statistics, covering Significant Institutions under the Single Supervisory Mechanism.`
     },
     {
-      layer: 'Staging Archive',
+      layer: 'Raw Data Archive',
       color: 'border-slate-200',
       icon: 'STG',
-      detail: `Raw data loaded verbatim into PostgreSQL and timestamped. Immutable record retained for 7-year regulatory audit window.`,
+      detail: `Source data stored without modification. Every record is timestamped and retained for 7 years to satisfy regulatory audit requirements.`,
     },
     {
-      layer: 'CRR Art. 416 Transformation',
+      layer: 'Regulatory Transformation',
       color: 'border-slate-200',
       icon: 'WH',
-      detail: `Net Outflows and HQLA computed under CRR Art. 416/422. Medallion pipeline applies Basel III regulatory run-off rates.`,
+      detail: `Raw figures converted into LCR components: HQLA buffer and net cash outflows, applying Basel III run-off rates as required under CRR Article 416/422.`,
     },
     {
-      layer: 'FastAPI Metrics',
+      layer: 'Data Service Layer',
       color: 'border-slate-200',
       icon: 'API',
-      detail: `Typed JSON endpoint served by FastAPI from warehouse views. Consumed by Executive Dashboard and detail pages.`,
+      detail: `Validated metrics made available to the dashboard through a structured data service. Only warehouse-approved figures are served.`,
     },
     {
-      layer: 'Executive UI',
+      layer: 'Dashboard Display',
       color: 'border-slate-200',
       icon: 'UI',
-      detail: `Final figure displayed on the dashboard. Value is static unless a Stress-Test scenario applies shock multipliers.`,
+      detail: `Final validated figure displayed on the Executive Terminal. The Stress Test Simulator can apply a funding shock to model a hypothetical scenario — the underlying warehouse record remains unchanged.`,
     },
   ]
 }

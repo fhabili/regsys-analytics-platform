@@ -1,6 +1,5 @@
 ﻿import { useState, useEffect, useMemo } from 'react'
 import { fetchLcr, type LcrResponse, dateToQuarter } from '../api'
-import { StatCard } from '../components/cards/StatCard'
 import { Sparkline } from '../components/charts/Sparkline'
 import { LcrTrendChart } from '../components/charts/LcrTrendChart'
 import { HqlaBarChart } from '../components/charts/HqlaBarChart'
@@ -55,7 +54,15 @@ export default function LCRDetail() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">LCR Detail</h1>
-        <p className="text-sm text-gray-500 mt-1">Liquidity Coverage Ratio — EU Banking Sector (ECB Aggregate, quarterly)</p>
+        <p className="text-sm text-gray-500 mt-1">Liquidity Coverage Ratio: EU Banking Sector (ECB Aggregate, quarterly)</p>
+      </div>
+
+      <div className="flex gap-3 rounded-xl border border-slate-200 border-t-4 border-t-blue-500 bg-white px-5 py-4">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-blue-500"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          <span className="font-semibold">About LCR: </span>
+          The Liquidity Coverage Ratio measures whether a bank holds enough High Quality Liquid Assets to survive 30 days of acute liquidity stress. A ratio above 100% indicates compliance with the Basel III minimum. This tab shows the latest ratio, the HQLA buffer and net outflow components, and the full quarterly trend from 2016 onwards.
+        </p>
       </div>
 
       {error && (
@@ -68,22 +75,27 @@ export default function LCRDetail() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-        <StatCard label="LCR Ratio"
-          value={latest?.lcr_ratio != null ? `${latest.lcr_ratio.toFixed(1)}%` : '—'}
-          sub={`Latest: ${latest?.reference_date ? dateToQuarter(latest.reference_date) : '…'}`}
-          highlight />
-        <StatCard label="Total HQLA Buffer"
-          value={latest?.hqla_amount != null ? `€${latest.hqla_amount.toFixed(1)}B` : '—'}
-          sub={`As of ${latest?.reference_date ? dateToQuarter(latest.reference_date) : '…'}`} />
-        <StatCard label="Net Cash Outflow"
-          value={latest?.net_outflow != null ? `€${latest.net_outflow.toFixed(1)}B` : '—'}
-          sub="30-day net outflow index" />
+        <div className="rounded-xl border p-6 border-blue-200" style={{ backgroundColor: 'rgb(239, 246, 255)' }}>
+          <p className="text-xs uppercase tracking-wide font-semibold" style={{ color: 'rgb(37, 99, 235)' }}>LCR Ratio</p>
+          <p className="text-3xl font-bold mt-1" style={{ color: 'rgb(37, 99, 235)' }}>{latest?.lcr_ratio != null ? `${latest.lcr_ratio.toFixed(1)}%` : '—'}</p>
+          <p className="mt-1 text-xs text-gray-400">{`Latest: ${latest?.reference_date ? dateToQuarter(latest.reference_date) : '…'}`}</p>
+        </div>
+        <div className="rounded-xl border p-6 bg-white border-gray-200">
+          <p className="text-xs uppercase tracking-wide font-semibold text-gray-500">Total HQLA Buffer</p>
+          <p className="text-3xl font-bold mt-1 text-gray-900">{latest?.hqla_amount != null ? `€${latest.hqla_amount.toFixed(1)}B` : '—'}</p>
+          <p className="mt-1 text-xs text-gray-400">{`As of ${latest?.reference_date ? dateToQuarter(latest.reference_date) : '…'}`}</p>
+        </div>
+        <div className="rounded-xl border p-6 bg-white border-gray-200">
+          <p className="text-xs uppercase tracking-wide font-semibold text-gray-500">Net Cash Outflow</p>
+          <p className="text-3xl font-bold mt-1 text-gray-900">{latest?.net_outflow != null ? `€${latest.net_outflow.toFixed(1)}B` : '—'}</p>
+          <p className="mt-1 text-xs text-gray-400">30-day net outflow index</p>
+        </div>
       </div>
 
       {/* Trend chart */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-gray-800">LCR Ratio — Quarterly Trend</h2>
+          <h2 className="text-base font-semibold text-gray-800">LCR Ratio: Quarterly Trend</h2>
           <div className="flex gap-1">
             {RANGE_OPTIONS.map(opt => (
               <button key={opt.label} onClick={() => setRangeYears(opt.years)}
@@ -97,13 +109,13 @@ export default function LCRDetail() {
           ? <LcrTrendChart data={trendData} showBrush={true} rangeYears={rangeYears} />
           : <p className="text-sm text-gray-400 text-center py-10">{data ? 'No data available.' : 'Loading…'}</p>
         }
-        <p className="mt-3 text-xs text-gray-400">Source: ECB Supervisory Banking Statistics. Annotations mark macro-economic events (COVID-19 Impact Q1 2020; Geopolitical Shock Q1 2022).</p>
+        <p className="mt-3 text-xs text-gray-400">Source: ECB Supervisory Banking Statistics. Values are ECB published indices.</p>
       </div>
 
       {/* HQLA vs Outflow */}
       {bufferData.length > 0 && (
         <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 className="text-base font-semibold text-gray-800 mb-4">HQLA Buffer vs Net Outflow — Last 12 Quarters</h2>
+          <h2 className="text-base font-semibold text-gray-800 mb-4">HQLA Buffer vs Net Outflow: Last 12 Quarters</h2>
           <HqlaBarChart data={bufferData} />
           <p className="mt-2 text-xs text-gray-400">Source: ECB Supervisory Banking Statistics. Values are ECB published indices.</p>
         </div>

@@ -23,7 +23,7 @@ export function FailedDetail({ rule }: { rule: Rule }) {
       <tr>
         <td colSpan={8} className="px-6 pb-4 pt-2">
           <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3 text-xs text-emerald-700 font-medium">
-            No failures — all {rule.total.toLocaleString()} records passed this rule.
+            No failures. All {rule.total.toLocaleString()} records passed this rule.
           </div>
         </td>
       </tr>
@@ -35,7 +35,7 @@ export function FailedDetail({ rule }: { rule: Rule }) {
       <td colSpan={8} className="px-6 pb-4 pt-1">
         <div className="rounded-lg border border-red-100 bg-red-50 p-3">
           <p className="text-xs font-semibold text-red-700 mb-2 uppercase tracking-wide">
-            {rule.failed} failed record{rule.failed !== 1 ? 's' : ''} — example rows
+            {rule.failed} failed record{rule.failed !== 1 ? 's' : ''}: example rows
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">

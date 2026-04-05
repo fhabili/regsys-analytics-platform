@@ -59,10 +59,18 @@ export default function ExecutiveSummary() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold" style={{ color: '#1B2A4A' }}>Executive Terminal</h1>
-        <p className="text-sm text-slate-500 mt-1">Regulatory Analytics — Multi-year trend analysis (LCR: 2016–2025 | NSFR: 2021–2025)</p>
+        <p className="text-sm text-slate-500 mt-1">Regulatory Analytics: Multi-year trend analysis (LCR: 2016–2025 | NSFR: 2021–2025)</p>
       </div>
 
-        {error && (
+      <div className="flex gap-3 rounded-xl border border-slate-200 border-t-4 border-t-emerald-500 bg-white px-5 py-4">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-emerald-500"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          <span className="font-semibold">About this page: </span>
+          This page shows aggregate liquidity metrics for the EU banking sector. The KPI cards display period averages computed from ECB trend data. Use the Stress Test Simulator to apply a funding shock across both LCR and NSFR simultaneously, or use the Pro-Forma Simulator to model the marginal LCR impact of a balance sheet adjustment using Basel III run-off weights.
+        </p>
+      </div>
+
+      {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 flex items-center justify-between gap-4">
             <span><span className="font-semibold">Could not load data:</span> {error}</span>
             <button onClick={load} className="shrink-0 px-3 py-1.5 rounded-lg bg-red-100 hover:bg-red-200 text-red-800 text-xs font-semibold transition-colors">
@@ -75,7 +83,7 @@ export default function ExecutiveSummary() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="rounded-lg bg-white border border-gray-200 pl-5 pr-4 py-4"
             style={{ borderLeftWidth: '4px', borderLeftColor: '#10B981' }}>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Avg LCR — Period</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Avg LCR: Period</p>
             <p className="text-3xl font-bold font-mono flex items-center gap-2" style={{ color: '#1B2A4A' }}>
               {loading ? (
                 <span className="text-lg font-normal text-gray-400 animate-pulse">Calculating…</span>
@@ -88,7 +96,7 @@ export default function ExecutiveSummary() {
           </div>
           <div className="rounded-lg bg-white border border-gray-200 pl-5 pr-4 py-4"
             style={{ borderLeftWidth: '4px', borderLeftColor: '#10B981' }}>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Avg NSFR — Period</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Avg NSFR: Period</p>
             <p className="text-3xl font-bold font-mono" style={{ color: '#1B2A4A' }}>
               {loading ? (
                 <span className="text-lg font-normal text-gray-400 animate-pulse">Calculating…</span>
@@ -129,7 +137,7 @@ export default function ExecutiveSummary() {
         {/* LCR trend + simulator */}
         <div className="flex flex-col gap-6">
           <div className="rounded-xl border border-gray-200 bg-white p-6 flex flex-col">
-            <h2 className="text-base font-semibold text-gray-800 mb-4">LCR Trend — EU Banking Sector (ECB Aggregate)</h2>
+            <h2 className="text-base font-semibold text-gray-800 mb-4">LCR Ratio Trend — EU Banking Sector</h2>
             <div className="flex-1">
               {data && data.lcr_trend.length > 0
                 ? <ExecutiveLcrChart data={data.lcr_trend} showBrush={showBrush} />

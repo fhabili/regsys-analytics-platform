@@ -30,14 +30,13 @@ export default function Home({ onEnter }: { onEnter: () => void }) {
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-16 pb-10 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.25em] mb-5" style={{ color: '#1B2A4A' }}>
-          Basel III Regulatory Intelligence
+          Regulatory Systems Intelligence
         </p>
         <h1 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight" style={{ color: '#1B2A4A' }}>
           Risk. Intelligence. Control.
         </h1>
         <p className="mt-5 text-base md:text-lg leading-relaxed max-w-2xl mx-auto" style={{ color: '#4B5563' }}>
-          A Basel III regulatory reporting system built on real ECB and Bundesbank data
-          — covering 1 million+ records across the EU banking sector.
+          A modular data platform covering the full lifecycle from ERP ingestion to validated regulatory reporting.
         </p>
 
         {/* subtle icon divider */}
@@ -69,7 +68,9 @@ export default function Home({ onEnter }: { onEnter: () => void }) {
       {/* Unified carousel — 6 cards */}
       <section className="max-w-4xl mx-auto px-6 py-14">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] mb-8" style={{ color: '#9CA3AF' }}>
-          What This System Does
+          {visibleCards[0]?.tag === 'System Capability'
+            ? 'What This System Does'
+            : 'Who Is This For'}
         </p>
 
         <div className="relative">
@@ -85,12 +86,6 @@ export default function Home({ onEnter }: { onEnter: () => void }) {
                 className="rounded-xl border p-6 flex flex-col gap-3"
                 style={{ borderColor: '#E2E8F0' }}
               >
-                <span
-                  className="self-start text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
-                  style={{ backgroundColor: card.tagBg, color: card.tagColor }}
-                >
-                  {card.tag}
-                </span>
                 <h3 className="text-base font-bold" style={{ color: '#1B2A4A' }}>{card.label}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: '#6B7280' }}>{card.body}</p>
               </div>
@@ -133,45 +128,40 @@ export default function Home({ onEnter }: { onEnter: () => void }) {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="max-w-4xl mx-auto px-6 pb-12 text-center">
-        <p className="text-xs" style={{ color: '#9CA3AF' }}>
-          Data Source: ECB Statistical Data Warehouse &amp; Deutsche Bundesbank BISTA.
-        </p>
-      </footer>
+
     </div>
   )
 }
 
 const ALL_CARDS = [
   {
-    tag: 'System Capability', tagBg: '#EFF6FF', tagColor: '#3B72C4',
-    label: 'Strategic Compliance',
-    body: 'Execute forward-looking LCR and NSFR simulations. Transition from static historical reporting to dynamic liquidity forecasting using a high-performance Pro-Forma engine.',
+    tag: 'System Capability',
+    label: 'Adaptive Reporting',
+    body: 'Execute forward-looking LCR and NSFR simulations. Transition from static snapshots to dynamic, pro-forma liquidity forecasting.',
   },
   {
-    tag: 'System Capability', tagBg: '#EFF6FF', tagColor: '#3B72C4',
-    label: 'Governance & Integrity',
-    body: 'Eliminate silent data corruption with an automated validation layer. Monitor real-time data health scores and audit failed records directly within the Governance terminal.',
+    tag: 'System Capability',
+    label: 'Data Integrity Controls',
+    body: 'Automate validation layers to eliminate data silos. Monitor real-time system health scores and audit logic breaks directly within the terminal.',
   },
   {
-    tag: 'System Capability', tagBg: '#EFF6FF', tagColor: '#3B72C4',
-    label: 'End-to-End Lineage',
-    body: 'Establish absolute data certainty. Achieve 1:1 traceability from raw ECB/BISTA source files through every transformation stage to the final executive metric.',
+    tag: 'System Capability',
+    label: 'System Lifecycle Lineage',
+    body: 'Achieve total traceability from raw source-file ingestion to final executive metrics with 1:1 data mapping transparency.',
   },
   {
-    tag: 'Who Is This For', tagBg: '#F0FDF4', tagColor: '#2D8A6A',
-    label: 'For Risk Leaders',
-    body: 'Modernize the reporting pipeline by replacing manual extraction with automated, auditable workflows that ensure Basel III compliance at scale.',
+    tag: 'Who Is This For',
+    label: 'For Finance Leaders',
+    body: 'Replace manual extraction with automated, auditable workflows that scale compliance across the enterprise.',
   },
   {
-    tag: 'Who Is This For', tagBg: '#F0FDF4', tagColor: '#2D8A6A',
-    label: 'For Compliance Analysts',
-    body: 'Instantly respond to regulatory inquiries with drill-down transparency, bridging the gap between aggregate metrics and raw source data.',
+    tag: 'Who Is This For',
+    label: 'For Business Analysts',
+    body: 'Resolve regulatory inquiries with granular drill-down transparency, bridging the gap between aggregate metrics and raw source data.',
   },
   {
-    tag: 'Who Is This For', tagBg: '#F0FDF4', tagColor: '#2D8A6A',
-    label: 'For Systems Architects',
-    body: 'Deploy a robust full-stack architecture featuring SQL-driven validation, Python processing, and a high-performance React intelligence layer.',
+    tag: 'Who Is This For',
+    label: 'For Systems Analysts',
+    body: 'Leverage a robust full-stack architecture featuring SQL-driven validation, Python processing, and a high-performance React interface.',
   },
 ]

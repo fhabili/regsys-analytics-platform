@@ -1,0 +1,12 @@
+
+Command to start backend: fillon me (cd backend)
+uv run uvicorn app.main:app --app-dir src --host 127.0.0.1 --port 8080 
+
+Command to start frontend: fillon me (cd frontend)
+npm run dev
+cmd /c "npm run dev"
+
+GitHub:
+git add . — Stage all modified files
+git commit -m — Create a commit with your message
+git push — Push to the main branch on GitHub

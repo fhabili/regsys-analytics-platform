@@ -115,13 +115,7 @@ export interface TraceStep {
   detail: string
 }
 
-export function buildTrace(metric: Metric, quarter: string): TraceStep[] {
-  const isLcr = metric === 'LCR ratio'
-  const [year, q] = quarter.split(' ')
-  const month = ({ Q1: '03', Q2: '06', Q3: '09', Q4: '12' } as Record<string, string>)[q] ?? '12'
-  const refDate = `${year}-${month}-31`
-  const qNoSpace = quarter.replace(' ', '')
-
+export function buildTrace(metric: Metric, _quarter: string): TraceStep[] {
   return [
     {
       layer: 'Authoritative Source',

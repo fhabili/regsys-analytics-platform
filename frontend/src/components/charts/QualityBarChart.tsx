@@ -13,7 +13,7 @@ export function QualityBarChart({ data }: { data: BarDataPoint[] }) {
         <XAxis type="number" domain={[98, 100.5]} tick={{ fontSize: 11 }} unit="%" />
         <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={52} />
         <RechartsTooltip
-          formatter={(v: number) => [`${v.toFixed(2)}%`, 'Pass rate']}
+          formatter={(v) => [typeof v === 'number' ? `${v.toFixed(2)}%` : '', 'Pass rate']}
           contentStyle={{ fontSize: 12, borderRadius: 8 }}
         />
         <Bar dataKey="passRate" radius={[0, 6, 6, 0]} maxBarSize={22} fill="#D97706" />

@@ -45,7 +45,7 @@ export function Sidebar({ open, onToggle, mobileModal = false }: SidebarProps) {
 
   return (
     <aside
-      className={`${mobileModal ? 'flex' : 'hidden md:flex'} flex-col shrink-0 min-h-0 border-r border-gray-200 bg-white transition-[width] duration-300 ease-in-out overflow-hidden`}
+      className={`${mobileModal ? 'flex h-[100dvh]' : 'hidden md:flex'} flex-col shrink-0 min-h-0 border-r border-gray-200 bg-white transition-[width] duration-300 ease-in-out overflow-hidden`}
       style={{ width: open ? 320 : 48 }}
     >
       {open ? (
@@ -78,7 +78,7 @@ export function Sidebar({ open, onToggle, mobileModal = false }: SidebarProps) {
           </div>
 
           {/* Messages */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+          <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-3">
             {messages.length === 0 && !sending ? (
               <div>
                 <p className="text-xs text-gray-400 mb-3 leading-relaxed">

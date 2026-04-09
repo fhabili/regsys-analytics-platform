@@ -63,7 +63,7 @@ export interface ChatMessage {
   content: string;
 }
 
-const BASE = '/api/v1';
+const BASE = import.meta.env.VITE_API_URL || '/api/v1';
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, init);

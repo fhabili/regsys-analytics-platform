@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 
-from groq import AsyncGroq
+from groq import AsyncGroq, APIConnectionError, APIStatusError, APITimeoutError, RateLimitError
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -160,33 +161,79 @@ class ChatResponse(BaseModel):
     reply: str
 
 
-_FALLBACK = "The AI is currently under high load. Please try again in a moment."
+_FALLBACK_MSG = "The AI assistant is temporarily under heavy load. Please try again in a moment."
+
+_RETRYABLE_HTTP: frozenset[int] = frozenset({429, 500, 502, 503, 504})
+_MAX_RETRIES = 2
+_REQUEST_TIMEOUT = 25.0
+
+
+async def _call_model(client: AsyncGroq, model: str, messages: list[dict]) -> str:
+    """Try one model with exponential-backoff retries on transient errors."""
+    last_exc: BaseException = RuntimeError("no attempts made")
+    for attempt in range(_MAX_RETRIES + 1):
+        try:
+            log.info("groq request model=%s attempt=%d", model, attempt)
+            completion = await asyncio.wait_for(
+                client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    max_tokens=1500,
+                ),
+                timeout=_REQUEST_TIMEOUT,
+            )
+            return completion.choices[0].message.content or ""
+        except asyncio.TimeoutError as exc:
+            log.warning("groq timeout model=%s attempt=%d", model, attempt)
+            last_exc = exc
+        except (RateLimitError, APIConnectionError, APITimeoutError) as exc:
+            log.warning("groq transient %s model=%s attempt=%d", type(exc).__name__, model, attempt)
+            last_exc = exc
+        except APIStatusError as exc:
+            if exc.status_code in _RETRYABLE_HTTP:
+                log.warning("groq status=%d model=%s attempt=%d", exc.status_code, model, attempt)
+                last_exc = exc
+            else:
+                raise  # non-retryable (auth, bad request, etc.)
+        if attempt < _MAX_RETRIES:
+            await asyncio.sleep(float(1 << attempt))  # 1 s, then 2 s
+    raise last_exc
 
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest) -> ChatResponse:
     if not settings.groq_api_key:
-        log.warning("GROQ_API_KEY not set")
-        return ChatResponse(reply=_FALLBACK)
+        log.warning("GROQ_API_KEY not set — returning fallback message")
+        return ChatResponse(reply=_FALLBACK_MSG)
 
-    try:
-        client = AsyncGroq(api_key=settings.groq_api_key)
+    client = AsyncGroq(api_key=settings.groq_api_key)
 
-        messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
-        for m in req.history:
-            messages.append({"role": "assistant" if m.role == "assistant" else "user", "content": m.content})
-        messages.append({"role": "user", "content": req.message})
+    messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT}]
+    for m in req.history:
+        messages.append({"role": "assistant" if m.role == "assistant" else "user", "content": m.content})
+    messages.append({"role": "user", "content": req.message})
 
-        log.info("Sending chat to Groq, history_len=%d", len(req.history))
+    primary = settings.groq_model
+    fallbacks = [
+        m.strip()
+        for m in settings.groq_fallback_models.split(",")
+        if m.strip() and m.strip() != primary
+    ]
+    models_to_try = [primary] + fallbacks
 
-        completion = await client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=messages,
-            max_tokens=1500,
-        )
+    for i, model in enumerate(models_to_try):
+        try:
+            reply = await _call_model(client, model, messages)
+            if i > 0:
+                log.info("groq fallback succeeded model=%s", model)
+            return ChatResponse(reply=reply)
+        except Exception as exc:
+            if i < len(models_to_try) - 1:
+                log.warning(
+                    "groq model=%s exhausted retries (%s), trying next fallback",
+                    model, type(exc).__name__,
+                )
+            else:
+                log.error("groq all models failed: %s", type(exc).__name__)
 
-        return ChatResponse(reply=completion.choices[0].message.content)
-
-    except Exception as exc:
-        log.error("Groq API error: %s", exc)
-        return ChatResponse(reply=_FALLBACK)
+    return ChatResponse(reply=_FALLBACK_MSG)
